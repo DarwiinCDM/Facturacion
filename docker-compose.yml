@@ -1,0 +1,53 @@
+services:
+  frontend:
+    container_name: frontend-facturacion
+    build: 
+      context: ./apps/frontend
+    volumes: 
+      - ./apps/frontend:/app
+      - /app/node_modules
+    ports: 
+      - "3001:4001"
+    networks:
+      - facturacion-net
+    depends_on:
+      - backend
+
+      
+  backend:
+    container_name: backend-facturacion
+    build: 
+      context: ./apps/backend
+    volumes: 
+      - ./apps/backend:/app
+      - /app/node_modules
+    ports: 
+      - "5001:5001"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - facturacion-net
+
+  mysql:
+    image: mysql:8.0
+    container_name: database-facturacion
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: Facturacion_DB
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./services/mysql/data:/var/lib/mysql
+      - ./apps/init:/docker-entrypoint-initdb.d
+    networks:
+      - facturacion-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  facturacion-net:
+    driver: bridge
