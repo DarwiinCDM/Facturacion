@@ -1,7 +1,7 @@
 var mysql = require('mysql2');
 
 const database = {
-    host: 'mysql',
+    host: 'database-facturacion',
     database: 'Facturacion_DB',
     user: 'root',
     password: ''
