@@ -10,9 +10,6 @@ services:
       - "3001:4001"
     networks:
       - facturacion-net
-    depends_on:
-      - backend
-
       
   backend:
     container_name: backend-facturacion
@@ -43,7 +40,7 @@ services:
     networks:
       - facturacion-net
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "sh", "-c", "mysql -uroot -e 'USE Facturacion_DB; SHOW TABLES;'"]
       interval: 10s
       timeout: 5s
       retries: 5
