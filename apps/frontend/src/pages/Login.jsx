@@ -57,8 +57,8 @@ function Login() {
   const url = `${URI}/Autentificiacion`;
 
   const [formData, setFormData] = useState({
-    user: "",
-    password: "",
+    user: "Admin",
+    password: "admin123",
   });
 
   const handleChange = (e) => {
