@@ -29,6 +29,7 @@ services:
   mysql:
     image: mysql:8.0
     container_name: database-facturacion
+    user: "1000:1000"
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_DATABASE: Facturacion_DB
