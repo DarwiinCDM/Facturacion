@@ -29,7 +29,6 @@ services:
   mysql:
     image: mysql:8.0
     container_name: database-facturacion
-    user: "1000:1000"
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_DATABASE: Facturacion_DB
@@ -38,6 +37,7 @@ services:
     volumes:
       - ./services/mysql/data:/var/lib/mysql
       - ./apps/init:/docker-entrypoint-initdb.d
+      - ./services/mysql/config/my.cnf:/etc/mysql/conf.d/my.cnf
     networks:
       - facturacion-net
     healthcheck:
@@ -45,7 +45,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    command: --wait_timeout=63072000 --interactive_timeout=63072000
 
 networks:
   facturacion-net:
